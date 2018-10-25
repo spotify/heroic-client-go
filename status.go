@@ -1,5 +1,17 @@
 package heroic
 
+import "context"
+
+func (c *Client) Status(ctx context.Context) (*StatusResponse, error) {
+	req, err := c.NewRequest("GET", "status", nil)
+	if err != nil {
+		return nil, err
+	}
+	var sr StatusResponse
+	_, err = c.Do(ctx, req, &sr)
+	return &sr, err
+}
+
 type StatusResponse struct {
 	Ok               bool            `json:"ok"`
 	Service          ServiceInfo     `json:"service"`

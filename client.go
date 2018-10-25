@@ -28,8 +28,9 @@ type Client struct {
 	client *http.Client
 }
 
-// NewClient returns a new Heroic API client. If a nil httpClient is provided,
-// the http.DefaultClient will be used.
+// NewClient returns a new heroic client with the given baseURL and httpClient.
+// If no baseURL is provided, the DefaultURL and DefaultPort will be used.
+// If no httpClient is provided, the http.DefaultClient will be used.
 func NewClient(baseURL *url.URL, httpClient *http.Client) *Client {
 	if baseURL == nil {
 		baseURL, _ = url.Parse(fmt.Sprintf("%s:%d/", DefaultURL, DefaultPort))
@@ -42,22 +43,6 @@ func NewClient(baseURL *url.URL, httpClient *http.Client) *Client {
 		client:  httpClient,
 	}
 }
-
-// Heroic API
-//
-
-func (c *Client) Status(ctx context.Context) (*StatusResponse, error) {
-	req, err := c.NewRequest("GET", "status", nil)
-	if err != nil {
-		return nil, err
-	}
-	var sr StatusResponse
-	_, err = c.Do(ctx, req, &sr)
-	return &sr, err
-}
-
-// Client helpers
-//
 
 func (c *Client) NewRequest(method, urlstr string, body interface{}) (*http.Request, error) {
 	if !strings.HasSuffix(c.BaseURL.Path, "/") {
