@@ -26,7 +26,7 @@ Construct a new Heroic client and get the status of a cluster:
 
 ```go
 u, _ := url.Parse("http://heroic.spotify.net/")
-c := heroic.NewClient(u, nil)
+c := heroic.NewClient(u, nil, nil)
 ctx := context.Background()
 status, _ := c.Status(ctx)
 fmt.Println(status.Service.Name) // "The Heroic Time Series Database"

@@ -26,12 +26,16 @@ type Client struct {
 
 	// HTTP client used to communicate with the API.
 	client *http.Client
+
+	// Client Id to be send as X-Client-Id header
+	clientId *string
 }
 
 // NewClient returns a new heroic client with the given baseURL and httpClient.
 // If no baseURL is provided, the DefaultURL and DefaultPort will be used.
 // If no httpClient is provided, the http.DefaultClient will be used.
-func NewClient(baseURL *url.URL, httpClient *http.Client) *Client {
+// If clientId provided it will be send as the X-Client-Id header.
+func NewClient(baseURL *url.URL, httpClient *http.Client, clientId *string) *Client {
 	if baseURL == nil {
 		baseURL, _ = url.Parse(fmt.Sprintf("%s:%d/", DefaultURL, DefaultPort))
 	}
@@ -41,6 +45,7 @@ func NewClient(baseURL *url.URL, httpClient *http.Client) *Client {
 	return &Client{
 		BaseURL: baseURL,
 		client:  httpClient,
+		clientId: clientId,
 	}
 }
 
@@ -68,6 +73,10 @@ func (c *Client) NewRequest(method, urlstr string, body interface{}) (*http.Requ
 	req, err := http.NewRequest(method, u.String(), buf)
 	if err != nil {
 		return nil, err
+	}
+
+	if c.clientId != nil {
+		req.Header.Set("X-Client-Id", *c.clientId)
 	}
 
 	if body != nil {
