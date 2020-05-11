@@ -125,8 +125,8 @@ const (
 type Sample struct {
 	Unit   TimeUnit `json:"unit"`
 	Value  int      `json:"value"`
-	Size   int      `json:"size"`
-	Extent int      `json:"extent"`
+	Size   int      `json:"size,omitempty"`
+	Extent int      `json:"extent,omitempty"`
 }
 
 type SamplingAggregation struct {
