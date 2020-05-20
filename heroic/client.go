@@ -43,8 +43,8 @@ func NewClient(baseURL *url.URL, httpClient *http.Client, clientId *string) *Cli
 		httpClient = http.DefaultClient
 	}
 	return &Client{
-		BaseURL: baseURL,
-		client:  httpClient,
+		BaseURL:  baseURL,
+		client:   httpClient,
 		clientId: clientId,
 	}
 }

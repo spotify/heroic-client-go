@@ -19,7 +19,7 @@ Go client for talking to a [heroic](https://github.com/spotify/heroic) cluster.
 ## Usage
 
 ```go
-import "github.com/spotify/heroic-client-go"
+import "github.com/spotify/heroic-client-go/heroic"
 ```
 
 Construct a new Heroic client and get the status of a cluster:
