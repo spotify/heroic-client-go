@@ -19,8 +19,8 @@ func TestNewRequest(t *testing.T) {
 	if request.Method != "POST" ||
 		request.Host != "localhost" ||
 		request.URL.Path != "/test/path" ||
-		request.Header.Values("Content-Type")[0] != "application/json" ||
-		request.Header.Values("X-Client-Id")[0] != clientId {
+		request.Header.Get("Content-Type") != "application/json" ||
+		request.Header.Get("X-Client-Id") != clientId {
 		log.Fatal("Unexpected request")
 	}
 }
@@ -49,9 +49,9 @@ func TestQueryMetrics(t *testing.T) {
 		if r.RequestURI != "/query/metrics" {
 			log.Fatalf("Unexpected client id %s != %s", r.RequestURI, "/query/metrics")
 		}
-		if r.Header.Values("X-Client-Id")[0] != clientId {
+		if r.Header.Get("X-Client-Id") != clientId {
 			log.Fatalf("Unexpected client id %s != %s",
-				r.Header.Values("X-Client-Id")[0], clientId)
+				r.Header.Get("X-Client-Id"), clientId)
 		}
 	}, 10, 5, 2, 10)
 	defer closeF()
